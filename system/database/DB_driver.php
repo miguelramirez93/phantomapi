@@ -1778,7 +1778,14 @@ abstract class CI_DB_driver {
 		}
 
 		$error =& load_class('Exceptions', 'core');
-		echo $error->show_error($heading, $message, 'error_db');
+		//echo $error->show_error($heading, $message, 'error_db');
+		//this is the magic
+		$data['success'] = false;
+		$data['heading'] = $heading;
+		$data['message'] = $message;
+		$data['type'] = 'error_db';
+
+		echo json_encode($data);
 		exit(8); // EXIT_DATABASE
 	}
 
