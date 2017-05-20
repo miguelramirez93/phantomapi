@@ -43,6 +43,20 @@ class Categoria extends CI_Model {
        return $this->db->insert('categoria',$data);
      }
 
+     public function add_categoria_tree($fatherid,$son){
+       $this->db->trans_start();
+       $this->db->insert('categoria',$son);
+       $sonid = $this->db->insert_id();
+       $row = [
+
+           'categoria_padre' => $fatherid,
+           'categoria_hijo' => $sonid
+       ];
+       $this->db->insert('categoria_categoria',$row);
+
+       return $this->db->trans_complete();
+     }
+
      public function delete_categoria($id){
        return  $this->db->delete('categoria', array('id' => $id));
      }

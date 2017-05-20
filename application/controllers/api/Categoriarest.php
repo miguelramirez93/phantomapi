@@ -35,7 +35,7 @@ class Categoriarest extends REST_Controller {
 
     public function categorias_get()
     {
-      $id = null;
+      $id = NULL;
       if (isset($_GET['id'])) {
         $id = $_GET['id'];
       }
@@ -47,9 +47,17 @@ class Categoriarest extends REST_Controller {
     {
       $json = file_get_contents('php://input');
       $data = json_decode($json);
+      if (isset($_GET['padre'])) {
+        $padreid = $_GET['padre'];
         $this->load->model('Categoria');
-        $this->set_response($this->Categoria->add_categoria($data), REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
-    }
+        $this->set_response($this->Categoria->add_categoria_tree($padreid,$data));
+
+      }else{
+        $this->load->model('Categoria');
+        $this->set_response($this->Categoria->add_categoria($data)); // CREATED (201) being the HTTP response code
+
+      }
+  }
 
     public function categorias_delete()
     {

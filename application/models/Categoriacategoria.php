@@ -9,7 +9,7 @@ class Categoriacategoria extends CI_Model {
      if ($data === NULL){
        return NULL;
      }else{
-       $sql = "SELECT categoria.id, nombre from categoria join categoria_categoria on  categoria_categoria.categoria_hijo = categoria.id WHERE categoria_categoria.categoria_padre = ? ";
+       $sql = "SELECT categoria.id, nombre, descripcion from categoria join categoria_categoria on  categoria_categoria.categoria_hijo = categoria.id WHERE categoria_categoria.categoria_padre = ? ";
        $query = $this->db->query($sql,$data);
        $row = $query->result_array();
        $res = array();
@@ -26,7 +26,7 @@ class Categoriacategoria extends CI_Model {
 
    public function get_categoriacategoria() { # refactored
 
-       $query = $this->db->query("SELECT id , nombre from categoria where id not in (select DISTINCT categoria_padre from categoria_categoria) AND id not in (select DISTINCT categoria_hijo from categoria_categoria) OR (id  in (select DISTINCT categoria_padre from categoria_categoria) AND id not in (select DISTINCT categoria_hijo from categoria_categoria))");
+       $query = $this->db->query("SELECT id , nombre, descripcion from categoria where id not in (select DISTINCT categoria_padre from categoria_categoria) AND id not in (select DISTINCT categoria_hijo from categoria_categoria) OR (id  in (select DISTINCT categoria_padre from categoria_categoria) AND id not in (select DISTINCT categoria_hijo from categoria_categoria))");
         $row = $query->result_array();
         $res = array();
         foreach ($row as $son) {
